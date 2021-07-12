@@ -10,6 +10,7 @@ endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
 
+    Plug 'SirVer/ultisnips'
     " Language support
     Plug 'sheerun/vim-polyglot'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -58,16 +59,44 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Git configuration
     Plug 'airblade/vim-gitgutter' " Add git diff on the left side
     Plug 'tpope/vim-fugitive'     " Git for vim
+    Plug 'sindrets/diffview.nvim' " VSCode like git diff
 
     " Test usage
     Plug 'vim-test/vim-test'                                     " Vim default test plugin
     Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins' } " The ultimate testing plugin for NeoVim
 
     Plug 'tomasiser/vim-code-dark'
+    Plug 'arzg/vim-colors-xcode'
 
+    Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
     Plug 'vimwiki/vimwiki'
+
+    " Database configuration, Usage: ':DBUI'
+    Plug 'tpope/vim-dadbod'
+    Plug 'kristijanhusak/vim-dadbod-completion'
+    Plug 'kristijanhusak/vim-dadbod-ui'
+
+    Plug 'lvim-tech/lvim-helper' " Keybinds via LvimHelper command
+
 call plug#end()
 
+
+lua << EOF
+local lvim_helper_bindings = require('lvim-helper.bindings');
+lvim_helper_bindings.bindings = {
+    ["l"] = lvim_helper_bindings.lvim_helper_callback("next"),
+    ["h"] = lvim_helper_bindings.lvim_helper_callback("prev"),
+    ["q"] = lvim_helper_bindings.lvim_helper_callback("close")
+}
+local home = os.getenv('HOME')
+require('lvim-helper').setup({
+    files = {
+        home .. '/.config/nvim/md/file1.md',
+        home .. '/.config/nvim/md/file2.md',
+        home .. '/.config/nvim/md/file3.md',
+    }
+})
+EOF
 
 set termguicolors
 
@@ -108,20 +137,20 @@ augroup UltestRunner
     au BufWritePost * UltestNearest
 augroup END
 
-let test#python#pytest#options = "--color=yes"
 let test#javascript#jest#options = "--color=always"
-let g:ultest_use_pty = 1
+"let test#python#pytest#options = "--color=yes"
+"let g:ultest_use_pty = 1
 
 " Vim wiki
 let g:vimwiki_list = [{'syntax': 'markdown', 'ext':'.md'}]
 
 " Source everything
-source $HOME/.config/nvim/plug-config/main.vim
-source $HOME/.config/nvim/settings.vim
-source $HOME/.config/nvim/keys/main.vim
+source $HOME/.config/nvim/config/plug-config/main.vim
+source $HOME/.config/nvim/config/settings.vim
+source $HOME/.config/nvim/config/keys/main.vim
 
 " Theme
 set termguicolors
 set t_Co=256
 set t_ut=
-colorscheme codedark
+colorscheme xcodedark

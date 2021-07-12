@@ -2,19 +2,20 @@
 
 " General configuration to install
 let g:coc_global_extensions = [
-                                \ 'coc-json',
-                                \ 'coc-tsserver',
-                                \ 'coc-html',
-                                \ 'coc-css',
-                                \ 'coc-yaml',
-                                \ 'coc-docker',
-                                \ 'coc-git',
-                                \ 'coc-sql',
-                                \ 'coc-python',
                                 \ 'coc-clangd',
-                                \ 'coc-phpls',
-                                \ 'coc-sh',
+                                \ 'coc-cmake',
+                                \ 'coc-css',
+                                \ 'coc-docker',
                                 \ 'coc-explorer',
+                                \ 'coc-git',
+                                \ 'coc-html',
+                                \ 'coc-json',
+                                \ 'coc-phpls',
+                                \ 'coc-python',
+                                \ 'coc-sh',
+                                \ 'coc-sql',
+                                \ 'coc-tsserver',
+                                \ 'coc-yaml',
                                 \ 'coc-yank'
                                 \ ]
 
@@ -54,8 +55,6 @@ let g:coc_explorer_global_presets = {
                                 \   }
                                 \ }
 
-" Configuration
-let g:UltiSnipsExpandTrigger = "<nop>"
 " Make <CR> auto-select the first completion item and notify coc.nvim
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm(): "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
