@@ -80,69 +80,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 
 call plug#end()
 
-
-lua << EOF
-local lvim_helper_bindings = require('lvim-helper.bindings');
-lvim_helper_bindings.bindings = {
-    ["l"] = lvim_helper_bindings.lvim_helper_callback("next"),
-    ["h"] = lvim_helper_bindings.lvim_helper_callback("prev"),
-    ["q"] = lvim_helper_bindings.lvim_helper_callback("close")
-}
-local home = os.getenv('HOME')
-require('lvim-helper').setup({
-    files = {
-        home .. '/.config/nvim/md/file1.md',
-        home .. '/.config/nvim/md/file2.md',
-        home .. '/.config/nvim/md/file3.md',
-    }
-})
-EOF
-
 set termguicolors
-
-lua << EOF
--- Telescope setup
-require('telescope').setup {
-  extensions = {
-    fzf = {
-      fuzzy = true,                    -- false will only do exact matching
-      override_generic_sorter = false, -- override the generic sorter
-      override_file_sorter = true,     -- override the file sorter
-    }
-  }
-}
-require('telescope').load_extension('coc')
-require('telescope').load_extension('fzf')
-
--- Tree sitter configuration
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "typescript", "json", "c", "cpp", "cuda", "dockerfile", "latex", "lua", "php", "python", "vue", "yaml"},    -- one of "all", "language", or a list of languages
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-    disable = { },  -- list of language that will be disabled
-  },
-}
-
-require'treesitter-context.config'.setup{
-    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-}
-
--- Requires set termguicolors
-require'colorizer'.setup() -- Colorize configuration
-EOF
-
-
-augroup UltestRunner
-    au!
-    au BufWritePost * UltestNearest
-augroup END
-
-let test#javascript#jest#options = "--color=always"
-"let test#python#pytest#options = "--color=yes"
-"let g:ultest_use_pty = 1
-
-" Vim wiki
-let g:vimwiki_list = [{'syntax': 'markdown', 'ext':'.md'}]
 
 " Source everything
 source $HOME/.config/nvim/config/plug-config/main.vim
@@ -150,7 +88,6 @@ source $HOME/.config/nvim/config/settings.vim
 source $HOME/.config/nvim/config/keys/main.vim
 
 " Theme
-set termguicolors
 set t_Co=256
 set t_ut=
 colorscheme xcodedark
