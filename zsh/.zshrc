@@ -27,7 +27,7 @@ source $ZSH_DIRECTORY/aliasrc
 export PATH=$HOME/scripts/:$PATH
 
 # Colors and Prompt
-export TERM=xterm-256color
+export TERM=screen-256color
 autoload -U colors && colors	# Load colors
 PROMPT='%B%{$fg[cyan]%}%~$(git_super_status)%{$fg[green]%} ❯ ' # Custom Prompt
 setopt autocd		# Automatically cd into typed directory

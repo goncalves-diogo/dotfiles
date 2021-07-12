@@ -1,4 +1,4 @@
-source $HOME/.config/nvim/plug-config/coc.vim
+source $HOME/.config/nvim/config/plug-config/coc.vim
 
 let g:startify_bookmarks = [
         \ { 'b': '~/code/docker-beevo' },
