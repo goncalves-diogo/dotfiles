@@ -1,7 +1,8 @@
-#!/bin/sh
+_fix_cursor() {
+    echo -ne '\e[5 q'
+}
+precmd_functions+=(_fix_cursor) # Add fix cursor to precmd
 
-# Colorize commands
-# OSX specific configuraion
 if [[ "$OSTYPE" == "darwin"* ]];then
     alias \
         ls="ls -G" \
@@ -17,7 +18,6 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
         ccat="highlight --out-format=ansi"
 fi
 
-# Env varibles
 alias \
 	f="$FILE" \
 	e="$EDITOR" \
@@ -29,30 +29,6 @@ alias \
     sv="sudo nvim" \
     vi="vim" \
     vim="nvim" \
-
-# Git alias
-alias \
-    g="git" \
-    ga="git add" \
-    gb="git branch" \
-    gc="git commit" \
-    gcm="git commit -m" \
-    gd="git diff" \
-    gco="git checkout" \
-    gcob="git checkout -b" \
-    gl="git pull" \
-    gp="git push" \
-    gst="git status" \
-    gittree="git log --graph --oneline --all"
-
-# Tmux alias
-alias \
-    ta="tmux attach -t" \
-    tad="tmux attach -d -t" \
-    ts="tmux new-session -s" \
-    tl="tmux list-sessions" \
-    tksv="tmux kill-server" \
-    tkss="tmux kill-session -t"
 
 # List directory contents
 alias \
@@ -74,9 +50,6 @@ alias cat=batcat
 
 alias my_internal_ip='python3 -c "import socket; print([l for l in ([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith(\"127.\")][:1], [[(s.connect((\"8.8.8.8\", 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) if l][0][0])"'
 
-##### Company specific mapping #####
-alias nrc=nix shell -f default.nix -c
-
 test_terminal_color ()
 {
 awk -v term_cols="${width:-$(tput cols || echo 80)}" 'BEGIN{
@@ -96,6 +69,13 @@ awk -v term_cols="${width:-$(tput cols || echo 80)}" 'BEGIN{
 
 alias terminal_test_colors=test_terminal_color
 alias with-cachix-key="vaultenv --secrets-file <(echo "cachix#signing-key") -- "
-
-##### Company specific mapping #####
 alias nrc="nix shell -f default.nix -c"
+
+if [[ -n $SSH_CONNECTION ]]; then
+   export EDITOR='vim'  # SSH remote editor
+else
+   export EDITOR='nvim' # Local editor
+fi
+
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^v' edit-command-line
