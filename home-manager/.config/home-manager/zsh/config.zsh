@@ -49,6 +49,10 @@ alias \
 alias cat=batcat
 alias with-cachix-key="vaultenv --secrets-file <(echo "cachix#signing-key") -- "
 
+function which-hosts() {
+    nix run nixpkgs#yq -- -r 'map(select(has("roles") and (.roles | any((. | type == "string" and . == $rolename) or (. | type == "object" and .role == $rolename)))) | .hosts) | sort | join(",")' ~/channable/devops/ansible/playbooks/provision.yml --arg rolename $1
+}
+
 if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='vim'  # SSH remote editor
 else
