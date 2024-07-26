@@ -71,7 +71,7 @@ bindkey '^v' edit-command-line
 PATH=~/.local/bin:$PATH
 
 # hacky was of get pylint to detect extensions
-export PYTHONPATH=$PYTHONPATH:.
+# export PYTHONPATH=$PYTHONPATH:.
 
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -89,3 +89,7 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 # This is broken on version 0.46.1 of FZF
 export FZF_TMUX_OPTS='-p 100%,40% -y P'
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+
+SSH_AUTH_SOCK=~/.1password/agent.sock
+
+alias where-role='yq -r '\''map(select(has("roles") and (.roles | any((. | type == "string" and . == $rolename) or (. | type == "object" and .role == $rolename)))) | .hosts) | sort | join(",")'\'' ~/channable/devops/ansible/playbooks/provision.yml --arg rolename '
