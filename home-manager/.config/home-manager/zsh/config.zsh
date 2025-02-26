@@ -47,6 +47,7 @@ alias \
 
 alias cat=batcat
 alias with-cachix-key="vaultenv --secrets-file <(echo "cachix#signing-key") -- "
+alias gssh="gcloud compute ssh --tunnel-through-iap"
 
 function which-hosts() {
     nix run nixpkgs#yq -- -r 'map(select(has("roles") and (.roles | any((. | type == "string" and . == $rolename) or (. | type == "object" and .role == $rolename)))) | .hosts) | sort | join(",")' ~/channable/devops/ansible/playbooks/provision.yml --arg rolename $1
@@ -92,3 +93,5 @@ ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 SSH_AUTH_SOCK=~/.1password/agent.sock
 
 alias where-role='yq -r '\''map(select(has("roles") and (.roles | any((. | type == "string" and . == $rolename) or (. | type == "object" and .role == $rolename)))) | .hosts) | sort | join(",")'\'' ~/channable/devops/ansible/playbooks/provision.yml --arg rolename '
+
+source $HOME/.atuin/bin/env
